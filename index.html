@@ -269,6 +269,7 @@
         <span class="tag"><span class="dot"></span>Air-gapped edge AI</span>
         <span class="tag"><span class="dot amber"></span>LLM out of the kill loop</span>
         <span class="tag"><span class="dot"></span>Threat classification — drone vs bird / aircraft</span>
+        <span class="tag"><span class="dot amber"></span>Standalone-first · grid-ready</span>
       </div>
       <div class="scan-note fade-up f4"><span class="blink"></span>LIVE: AUTONOMOUS DETECT → CLASSIFY → ENGAGE</div>
     </div>
@@ -337,7 +338,7 @@
     <div class="arch-grid">
       <div class="acard glass reveal"><span class="arrow">→</span><div class="idx">STAGE 01</div><h3>Sensors</h3><p>Passive acoustic direction-finding fused with EO/camera vision — catches the fiber-optic and autonomous drones RF systems can't, and emits nothing itself.</p><ul class="clist"><li>Mic-array direction-of-arrival (DoA)</li><li>Open-weight EO detector (RF-DETR / D-FINE)</li><li>Threat classification: drone vs bird / aircraft</li></ul></div>
       <div class="acard glass reveal d1"><span class="arrow">→</span><div class="idx">STAGE 02</div><h3>Fire-Control</h3><p>Detections become tracks; tracks become an aim solution; the solution becomes pan-tilt commands. Classical, low-latency, testable.</p><ul class="clist"><li>Multi-object tracking</li><li>Aim-solution solver</li><li>Deterministic — no LLM in the loop</li></ul></div>
-      <div class="acard glass reveal d2"><span class="arrow">→</span><div class="idx">STAGE 03</div><h3>C2 &amp; Edge</h3><p>Command &amp; control runs on an on-site edge GPU node — offline, no external calls. Operator sees live tracks; an air-gapped LLM writes after-action reports only, never firing.</p><ul class="clist"><li>Live track / alert / log dashboard</li><li>Secure boot + disk encryption</li><li>Signed offline update path</li></ul></div>
+      <div class="acard glass reveal d2"><span class="arrow">→</span><div class="idx">STAGE 03</div><h3>C2 &amp; Edge</h3><p>Command &amp; control runs on an on-site edge GPU node — offline, no external calls. Operator sees live tracks; an air-gapped LLM writes after-action reports only, never firing.</p><ul class="clist"><li>Live track / alert / log dashboard</li><li>Secure boot + disk encryption</li><li>Signed offline update path</li><li>Documented track-export + cue-in interface (ICD — our published integration spec)</li></ul></div>
       <div class="acard glass reveal d3"><div class="idx">STAGE 04</div><h3>Effector</h3><p>A safe stand-in (laser / airsoft) proves the full loop today; a 12-gauge shotgun effector follows post-licence. Same interface — only the muzzle changes.</p><ul class="clist"><li>Safe stand-in for bench + demo</li><li>12-ga shotgun (post-licence)</li><li>Faster slew + belt-fed later</li></ul></div>
     </div>
     <div class="killstrip reveal d1">
@@ -436,7 +437,7 @@
   <div class="wrap">
     <span class="eyebrow reveal">06 — Why this is winnable</span>
     <div class="edge">
-      <div class="edge-card glass reveal"><div class="big">A capability that doesn't exist here</div><p>tratr defeats the RF-silent drones today's jam-based systems miss — passive detection paired with cheap kinetic kill. No fielded Indian system does this.</p></div>
+      <div class="edge-card glass reveal"><div class="big">A capability that doesn't exist here</div><p>tratr defeats the RF-silent drones today's jam-based systems miss — passive detection paired with cheap kinetic kill. No fielded Indian system does this. And it's open where every incumbent is closed: a documented track interface, designed to plug into Akashteer/SAKSHAM-class C2 grids (India's air-defense command networks) — standalone-first where no grid exists.</p></div>
       <div class="edge-card glass reveal d1"><div class="big">The scarce asset</div><p>Warm BSF relationships and prospective Navy access — the procurement door and end-user letter most defense startups never reach.</p></div>
       <div class="edge-card glass reveal d2"><div class="big">Timing</div><p>The threat is here now, the U.S. benchmark is structurally locked out of India's sovereign-procurement lane, and non-dilutive defense capital is actively deploying.</p></div>
     </div>
@@ -483,7 +484,7 @@ var cg=document.getElementById('cursorGlow');
 addEventListener('pointermove',function(e){cg.style.opacity=1;cg.style.left=e.clientX+'px';cg.style.top=e.clientY+'px';});
 addEventListener('pointerleave',function(){cg.style.opacity=0;});
 var logEl=document.getElementById('log');
-var events=[['a','ACOUSTIC','direction-of-arrival lock · bearing acquired'],['c','VISION','EO detector online · contact classified: FPV'],['c','CLASS','friendly rotorcraft recognised · hold fire'],['c','TRACK','multi-object track established'],['a','FIRE-CTRL','aim solution computed · pan-tilt slewing'],['c','BENCH','pan-tilt loop nominal · target centered'],['a','SAFETY','stand-in effector armed · safe-mode'],['c','C2','event logged · air-gapped · no external calls'],['a','SENSOR','RF-silent contact — no radio emission detected'],['c','EDGE','all inference on-site · offline']];
+var events=[['a','ACOUSTIC','direction-of-arrival lock · bearing acquired'],['c','VISION','EO detector online · contact classified: FPV'],['c','CLASS','friendly rotorcraft recognised · hold fire'],['c','TRACK','multi-object track established'],['a','FIRE-CTRL','aim solution computed · pan-tilt slewing'],['c','BENCH','pan-tilt loop nominal · target centered'],['a','SAFETY','stand-in effector armed · safe-mode'],['c','C2','event logged · air-gapped · no external calls'],['a','ICD','track picture exported · documented interface · grid-ready'],['a','SENSOR','RF-silent contact — no radio emission detected'],['c','EDGE','all inference on-site · offline']];
 var li=0;
 function pad(n){return n<10?'0'+n:''+n;}
 function stamp(){var d=new Date();return pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());}
