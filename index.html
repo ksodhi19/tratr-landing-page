@@ -11,6 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
 <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<script src="config.js"></script>
 <style>
   :root{
     --bg:#05070C; --bg2:#080B13; --panel:rgba(255,255,255,.03);
@@ -126,7 +127,12 @@
   .cmp-badge.good{color:var(--cyan); background:var(--cyan-soft); border:1px solid var(--cyan-soft)}
   .cmp-icons{display:flex; gap:12px}
   .cmp-ico{flex:1; border:1px solid var(--line); border-radius:10px; padding:11px 8px; text-align:center; font-family:var(--mono); font-size:10px; color:var(--muted)}
-  .cmp-ico .glyph{display:block; font-size:19px; margin-bottom:5px; line-height:1}
+  .cmp-ico{position:relative}
+  .cmp-ico .ico{display:block; width:24px; height:24px; margin:2px auto 7px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round}
+  .cmp-ico .oc{position:absolute; top:6px; right:6px; width:15px; height:15px; border-radius:50%; display:grid; place-items:center}
+  .cmp-ico .oc svg{width:9px; height:9px; fill:none; stroke:currentColor; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round}
+  .cmp-ico .oc.ok{color:#04211c; background:var(--cyan)}
+  .cmp-ico .oc.no{color:#2a0a0a; background:var(--danger)}
   .cmp-ico.miss{border-color:rgba(255,77,77,.35); color:var(--danger); background:rgba(255,77,77,.05)}
   .cmp-ico.hit{border-color:var(--cyan-soft); color:var(--cyan); background:var(--cyan-soft)}
   .cmp-note{font-size:13px; color:var(--muted); margin-top:16px; padding-top:16px; border-top:1px dashed var(--line)}
@@ -222,6 +228,70 @@
   .foot{display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; align-items:center}
   .foot .small{font-size:12px; color:var(--dim); line-height:1.8}
   .conf{font-size:10.5px; font-weight:600; letter-spacing:.14em; color:var(--danger); border:1px solid rgba(255,77,77,.32); border-radius:6px; padding:6px 12px; text-transform:uppercase}
+  /* ---- now / next rows in the track cards ---- */
+  .nownext{margin-top:18px; border-top:1px dashed var(--line); padding-top:14px; display:flex; flex-direction:column; gap:10px}
+  .nn{display:grid; grid-template-columns:52px 1fr; gap:12px; align-items:start}
+  .nn .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; font-weight:600; padding:3px 0; border-radius:6px; text-align:center}
+  .nn.now .k{color:var(--cyan); background:var(--cyan-soft); border:1px solid rgba(55,228,203,.25)}
+  .nn.next .k{color:var(--accent); background:var(--accent-soft); border:1px solid rgba(255,106,44,.25)}
+  .nn .v{font-size:13px; color:var(--muted); line-height:1.55}
+  .nn.now .v{color:var(--ink)}
+  /* ---- hero "watch" CTA ---- */
+  .btn.watch{position:relative; background:linear-gradient(180deg,#7bf5e2,var(--cyan)); border-color:var(--cyan); color:#04211c; font-weight:700; padding:12px 22px 12px 12px; gap:12px; box-shadow:0 8px 28px rgba(55,228,203,.28), 0 0 0 0 rgba(55,228,203,.55); animation:watchPulse 2.4s infinite; overflow:visible}
+  .btn.watch:hover{filter:brightness(1.05); box-shadow:0 10px 34px rgba(55,228,203,.45)}
+  @keyframes watchPulse{0%{box-shadow:0 8px 28px rgba(55,228,203,.28), 0 0 0 0 rgba(55,228,203,.55)}70%{box-shadow:0 8px 28px rgba(55,228,203,.28), 0 0 0 14px rgba(55,228,203,0)}100%{box-shadow:0 8px 28px rgba(55,228,203,.28), 0 0 0 0 rgba(55,228,203,0)}}
+  .btn.watch .pp{position:relative; width:30px; height:30px; border-radius:50%; background:#04211c; color:var(--cyan); display:grid; place-items:center; font-size:11px; padding-left:2px; flex:none}
+  .btn.watch .pp-ring{position:absolute; inset:-4px; border-radius:50%; border:1.5px solid rgba(4,33,28,.55); animation:ppRing 1.6s infinite}
+  @keyframes ppRing{0%{transform:scale(.85); opacity:.9}100%{transform:scale(1.35); opacity:0}}
+  .btn.watch .pp-new{position:absolute; top:-10px; right:-8px; font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; color:#160c04; background:linear-gradient(180deg,var(--accent2),var(--accent)); border-radius:999px; padding:3px 8px; box-shadow:0 4px 12px rgba(255,106,44,.45); transform:rotate(6deg)}
+  /* ---- gate opener ---- */
+  .gate-fun{display:flex; gap:12px; align-items:flex-start; padding:12px 14px; border-radius:12px; border:1px solid var(--cyan-soft); background:var(--cyan-soft); margin-bottom:18px}
+  .gate-fun-ic{font-size:22px; line-height:1.1; flex:none}
+  .gate-fun p{font-size:13px; color:var(--ink); line-height:1.5}
+  .gate-sig{display:inline-block; margin-top:4px; font-family:var(--mono); font-size:11.5px; color:var(--cyan); letter-spacing:.06em}
+  /* ---- demo video block (status section) ---- */
+  .demo{margin-top:22px; padding:26px; overflow:hidden; scroll-margin-top:90px}
+  .demo::before{content:""; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--cyan),transparent); opacity:.6}
+  .demo-head{display:flex; justify-content:space-between; gap:24px; align-items:flex-end; flex-wrap:wrap; margin-bottom:18px}
+  .demo-head h3{font-size:clamp(22px,2.6vw,30px); margin:14px 0 8px}
+  .demo-head p{color:var(--muted); font-size:14.5px; max-width:60ch}
+  .demo-meta{display:flex; gap:8px; flex-wrap:wrap}
+  .demo-frame{position:relative; aspect-ratio:16/9; border-radius:14px; overflow:hidden; background:#03050a; border:1px solid var(--line2); box-shadow:0 30px 80px rgba(0,0,0,.55)}
+  .demo-frame video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; background:#000}
+  .demo-poster{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.92; transition:opacity .5s var(--ease), transform 6s var(--ease); pointer-events:none}
+  .demo-frame:hover .demo-poster{transform:scale(1.02)}
+  .demo-frame.unlocked .demo-poster,.demo-frame.unlocked .demo-play{opacity:0; pointer-events:none}
+  .demo-play{position:absolute; inset:0; width:100%; height:100%; border:none; background:linear-gradient(180deg,rgba(5,7,12,.12),rgba(5,7,12,.55)); color:var(--ink); cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; font-family:var(--sans); transition:opacity .4s}
+  .demo-play .ring{width:86px; height:86px; border-radius:50%; border:1.5px solid rgba(255,255,255,.55); display:block; position:relative; background:rgba(5,7,12,.35); backdrop-filter:blur(6px); box-shadow:0 0 0 0 rgba(255,106,44,.55); animation:playPulse 2.2s infinite}
+  @keyframes playPulse{0%{box-shadow:0 0 0 0 rgba(255,106,44,.5)}70%{box-shadow:0 0 0 22px rgba(255,106,44,0)}100%{box-shadow:0 0 0 0 rgba(255,106,44,0)}}
+  .demo-play .tri{position:absolute; font-size:30px; color:var(--accent2); margin-top:-58px; margin-left:4px; line-height:1}
+  .demo-play .lbl{font-family:var(--disp); font-weight:600; font-size:17px; margin-top:6px}
+  .demo-play .sub{font-family:var(--mono); font-size:11px; letter-spacing:.12em; color:var(--muted); text-transform:uppercase}
+  .demo-play:hover .ring{border-color:var(--accent)}
+  .demo-cap{font-size:12.5px; color:var(--muted); margin-top:14px; max-width:80ch}
+  /* ---- lead gate ---- */
+  .gate{position:fixed; inset:0; z-index:90; display:flex; align-items:center; justify-content:center; padding:20px; background:rgba(3,5,10,.78); backdrop-filter:blur(8px)}
+  .gate[hidden]{display:none}
+  .gate-card{position:relative; width:100%; max-width:440px; border:1px solid var(--line2); border-radius:18px; padding:28px 26px 22px; background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012)), var(--bg2); box-shadow:0 40px 100px rgba(0,0,0,.6); animation:gateIn .35s var(--ease)}
+  @keyframes gateIn{from{opacity:0; transform:translateY(14px) scale(.98)}to{opacity:1; transform:none}}
+  .gate-card h3{font-size:24px; margin:12px 0 8px}
+  .gate-sub{font-size:13.5px; color:var(--muted); margin-bottom:18px}
+  .gate-x{position:absolute; top:12px; right:12px; width:34px; height:34px; border-radius:9px; border:1px solid var(--line); background:transparent; color:var(--muted); font-size:20px; line-height:1; cursor:pointer}
+  .gate-x:hover{color:var(--ink); border-color:var(--line2)}
+  .gf{display:flex; flex-direction:column; gap:5px; margin-bottom:12px}
+  .gf label{font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); font-weight:600}
+  .gf input{font:inherit; font-size:15px; color:var(--ink); background:rgba(255,255,255,.04); border:1px solid var(--line2); border-radius:10px; padding:11px 13px; outline:none; transition:border-color .2s, box-shadow .2s}
+  .gf input:focus{border-color:var(--accent); box-shadow:0 0 0 3px rgba(255,106,44,.18)}
+  .gf input.bad{border-color:var(--danger)}
+  .gf .err{font-size:12px; color:var(--danger); min-height:0}
+  .gf .err:empty{display:none}
+  .gf.hp{position:absolute; left:-9999px; top:-9999px; height:0; overflow:hidden}
+  .gate-go{width:100%; justify-content:center; margin-top:4px; font-size:15px; padding:14px 20px}
+  .gate-go[disabled]{opacity:.6; cursor:wait}
+  .gate-fine{font-size:11.5px; color:var(--dim); margin-top:10px; text-align:center}
+  .gate-err{font-size:12.5px; color:var(--danger); text-align:center; margin-top:8px}
+  .gate-err:empty{display:none}
+  @media(max-width:560px){.demo{padding:18px} .demo-play .ring{width:68px; height:68px} .demo-play .tri{font-size:24px; margin-top:-46px} .gate-card{padding:22px 18px 18px}}
 </style>
 </head>
 <body>
@@ -263,7 +333,7 @@
       <p class="hero-sub fade-up f2">See it, classify it, hit it — while friendly aircraft are recognised and left alone.</p>
       <div class="hero-cta fade-up f3">
         <a href="#" class="btn" onclick="return bookCall()">Book an intro call →</a>
-        <a href="#system" class="btn ghost">See the system</a>
+        <a href="#demo" class="btn watch"><span class="pp"><span class="pp-ring"></span>▶</span>Watch it track a live drone<span class="pp-new">update</span></a>
       </div>
       <div class="hero-tags fade-up f4">
         <span class="tag"><span class="dot"></span>Air-gapped edge AI</span>
@@ -294,17 +364,17 @@
         <div class="cmp-row">
           <div class="cmp-head"><span class="name">Legacy RF jamming</span><span class="cmp-badge bad">2 / 3 missed</span></div>
           <div class="cmp-icons">
-            <div class="cmp-ico hit"><span class="glyph">📡</span>RF drone</div>
-            <div class="cmp-ico miss"><span class="glyph">🚫</span>Fiber-optic</div>
-            <div class="cmp-ico miss"><span class="glyph">🚫</span>Autonomous</div>
+            <div class="cmp-ico hit"><span class="oc ok" aria-label="jammed"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21v-9"/><path d="M8.5 8.5a5 5 0 0 1 7 0"/><path d="M5.5 5.5a9.2 9.2 0 0 1 13 0"/><circle cx="12" cy="11.5" r="1.4"/></svg>RF drone</div>
+            <div class="cmp-ico miss"><span class="oc no" aria-label="missed"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="14" width="10" height="7" rx="2"/><path d="M12 14V3"/><path d="M9.5 3h5"/><path d="M12 6.5c-2 1-2 3 0 4s2 3 0 3.5"/></svg>Fiber-optic</div>
+            <div class="cmp-ico miss"><span class="oc no" aria-label="missed"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="6.5" width="11" height="11" rx="2"/><rect x="10" y="10" width="4" height="4"/><path d="M9.5 2.5v4M14.5 2.5v4M9.5 17.5v4M14.5 17.5v4M2.5 9.5h4M2.5 14.5h4M17.5 9.5h4M17.5 14.5h4"/></svg>Autonomous</div>
           </div>
         </div>
         <div class="cmp-row">
           <div class="cmp-head"><span class="name">tratr · passive + kinetic</span><span class="cmp-badge good">3 / 3 · design target</span></div>
           <div class="cmp-icons">
-            <div class="cmp-ico hit"><span class="glyph">🎯</span>RF drone</div>
-            <div class="cmp-ico hit"><span class="glyph">🎯</span>Fiber-optic</div>
-            <div class="cmp-ico hit"><span class="glyph">🎯</span>Autonomous</div>
+            <div class="cmp-ico hit"><span class="oc ok" aria-label="defeated"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21v-9"/><path d="M8.5 8.5a5 5 0 0 1 7 0"/><path d="M5.5 5.5a9.2 9.2 0 0 1 13 0"/><circle cx="12" cy="11.5" r="1.4"/></svg>RF drone</div>
+            <div class="cmp-ico hit"><span class="oc ok" aria-label="defeated"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="14" width="10" height="7" rx="2"/><path d="M12 14V3"/><path d="M9.5 3h5"/><path d="M12 6.5c-2 1-2 3 0 4s2 3 0 3.5"/></svg>Fiber-optic</div>
+            <div class="cmp-ico hit"><span class="oc ok" aria-label="defeated"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="6.5" width="11" height="11" rx="2"/><rect x="10" y="10" width="4" height="4"/><path d="M9.5 2.5v4M14.5 2.5v4M9.5 17.5v4M14.5 17.5v4M2.5 9.5h4M2.5 14.5h4M17.5 9.5h4M17.5 14.5h4"/></svg>Autonomous</div>
           </div>
           <div class="cmp-note"><strong>Passive sensing sees the drone regardless of its radio</strong> — every contact is detected, classified as friend or threat, and handed to fire-control for kinetic defeat.</div>
         </div>
@@ -351,29 +421,56 @@
 <section class="section-pad" id="status">
   <div class="wrap">
     <span class="eyebrow reveal">03 — Where we are</span>
-    <h2 class="h-sec reveal">Model training &amp; bench experimentation — live now.</h2>
-    <p class="lead reveal d1">Two tracks are running in parallel: the <b style="color:var(--ink)">targeting brain</b> (vision + fire-control) and the <b style="color:var(--ink)">motion platform</b> (the test turret). Both are on the workbench now, being wired together so the AI can drive the turret automatically.</p>
+    <h2 class="h-sec reveal">The loop is closed — the turret follows a live drone.</h2>
+    <p class="lead reveal d1">The two tracks are now wired together: the <b style="color:var(--ink)">targeting brain</b> (vision + fire-control) drives the <b style="color:var(--ink)">motion platform</b> (the test turret) automatically. On the workbench it detects, tracks and follows a hovering drone end to end — camera in, servo commands out, no human in between.</p>
     <div class="status-wrap">
       <div class="track-card glass reveal">
-        <div class="track-head"><div><div class="t">Track A</div><h3>Targeting brain</h3></div><div class="live"><span class="blink"></span>Training</div></div>
-        <p style="font-size:14px; color:var(--muted)">Detector trained across successive drone dataset generations and running live inference (real-time detection) on the bench feed. Now hardening against harder, real-world domains — motion blur, small/distant targets, mixed backgrounds.</p>
-        <div class="prog" style="margin-top:18px"><div class="prog-row"><span>Detection pipeline</span><span class="cyan">Operational</span></div><div class="bar cy" data-w="86"><i></i></div></div>
-        <div class="prog"><div class="prog-row"><span>Tracking &amp; aim engine</span><span class="accent">Integrating</span></div><div class="bar" data-w="64"><i></i></div></div>
-        <div class="chips"><span class="chip"><span class="ok">◆</span> Open-weight, Apache-2.0 (open licence)</span><span class="chip"><span class="ok">◆</span> Live bench inference</span><span class="chip"><span class="ok">◆</span> Own dataset growing</span></div>
+        <div class="track-head"><div><div class="t">Track A</div><h3>Targeting brain</h3></div><div class="live"><span class="blink"></span>Driving the turret</div></div>
+        <p style="font-size:14px; color:var(--muted)">Open-weight detector + multi-object tracker running live on the bench camera and issuing aim commands to the turret — closed-loop on a screen target, then on a real hovering drone. Every run is logged and replayed against held-out clips before any change ships. Now hardening the detector against harder domains — small/distant targets, clutter, false-alarm sources.</p>
+        <div class="prog" style="margin-top:18px"><div class="prog-row"><span>Detection pipeline</span><span class="cyan">Operational</span></div><div class="bar cy" data-w="88"><i></i></div></div>
+        <div class="prog"><div class="prog-row"><span>Tracking &amp; aim engine</span><span class="cyan">Closed-loop on the bench</span></div><div class="bar cy" data-w="80"><i></i></div></div>
+        <div class="prog"><div class="prog-row"><span>Outdoor tracking at range — drone in flight</span><span class="accent">Starting</span></div><div class="bar" data-w="24"><i></i></div></div>
+        <div class="chips"><span class="chip"><span class="ok">◆</span> Open-weight, Apache-2.0 (open licence)</span><span class="chip"><span class="ok">◆</span> Live bench inference</span><span class="chip"><span class="ok">◆</span> Live-drone tracking (bench)</span><span class="chip"><span class="ok">◆</span> Own dataset growing</span></div>
+        <div class="nownext">
+          <div class="nn now"><span class="k">Now</span><span class="v">Hardening the detector: small/distant targets, clutter, and the false-alarm sources the bench has surfaced — with held-out replays as the gate for every change.</span></div>
+          <div class="nn next"><span class="k">Next</span><span class="v">Outdoor tracking of the drone in flight at range · threat classification stress-tests (birds, aircraft) · hardened edge-node build (offline, signed updates).</span></div>
+        </div>
       </div>
       <div class="track-card glass reveal d1">
-        <div class="track-head"><div><div class="t">Track B</div><h3>Motion platform</h3></div><div class="live"><span class="blink"></span>On the workbench</div></div>
-        <p style="font-size:14px; color:var(--muted)">Test turret assembled on the workbench — COTS (commercial off-the-shelf) pan-tilt gimbal, servos driven by an ESP32 microcontroller, and a safe stand-in effector (laser / airsoft). The fire-control loop takes aim commands straight from Track A: detect → track → aim, coming together on the workbench.</p>
-        <div class="prog" style="margin-top:18px"><div class="prog-row"><span>Pan-tilt (aiming) control loop</span><span class="accent">In progress</span></div><div class="bar" data-w="60"><i></i></div></div>
-        <div class="prog"><div class="prog-row"><span>Closed-loop aim (A→B)</span><span class="accent">Wiring up</span></div><div class="bar" data-w="52"><i></i></div></div>
-        <div class="chips"><span class="chip"><span class="ok">◆</span> COTS gimbal + servos</span><span class="chip"><span class="ok">◆</span> Safe stand-in effector</span><span class="chip"><span class="ok">◆</span> ESP32 firmware live</span></div>
+        <div class="track-head"><div><div class="t">Track B</div><h3>Motion platform</h3></div><div class="live"><span class="blink"></span>Closed loop · bench</div></div>
+        <p style="font-size:14px; color:var(--muted)">Test turret on the workbench — COTS (commercial off-the-shelf) pan-tilt with smart servos, a safe stand-in effector (laser), and a hardware e-stop. The fire-control loop takes aim commands straight from Track A and the turret follows the target; servo-side travel limits and an arm-time self-test bound every run. Servo latency, pointing repeatability and loop rate are measured, not assumed.</p>
+        <div class="prog" style="margin-top:18px"><div class="prog-row"><span>Pan-tilt (aiming) control loop</span><span class="cyan">Closed</span></div><div class="bar cy" data-w="86"><i></i></div></div>
+        <div class="prog"><div class="prog-row"><span>Closed-loop aim (A→B)</span><span class="cyan">Bench-proven</span></div><div class="bar cy" data-w="78"><i></i></div></div>
+        <div class="prog"><div class="prog-row"><span>Fire channel — arm · interlocks · engage</span><span class="accent">In build</span></div><div class="bar" data-w="32"><i></i></div></div>
+        <div class="chips"><span class="chip"><span class="ok">◆</span> COTS gimbal + smart servos</span><span class="chip"><span class="ok">◆</span> Safe stand-in effector</span><span class="chip"><span class="ok">◆</span> E-stop + servo-side limits</span></div>
+        <div class="nownext">
+          <div class="nn now"><span class="k">Now</span><span class="v">Measuring the latency budget end to end (camera → detector → servo) and tightening the loop rate; safety fences for laser-on runs with people in the room.</span></div>
+          <div class="nn next"><span class="k">Next</span><span class="v">Fire-channel build — arm switch, relay, dead-man interlock · rigid effector mount · outdoor turret trials against the drone at range (slew rate, pointing accuracy vs the benchmark).</span></div>
+        </div>
       </div>
       <div class="console reveal d2">
         <div class="console-bar"><span class="d" style="background:var(--accent)"></span><span class="d" style="background:#ffb648"></span><span class="d" style="background:var(--cyan)"></span>&nbsp; tratr-edge · closed-loop bench · sensor→effector</div>
         <div class="console-log" id="log"></div>
       </div>
     </div>
-    <p class="reveal" style="font-size:11.5px; color:var(--dim); margin-top:16px; font-family:var(--mono)">Test-bench feed shown for capability illustration. Field-validated performance metrics are gated on held-out (unseen), real-world testing — reported honestly at pilot.</p>
+
+    <div class="demo glass reveal" id="demo">
+      <div class="demo-head">
+        <div>
+          <span class="eyebrow">First live-drone run · workbench · 16 Sep 2026</span>
+          <h3>Watch the turret follow a hovering drone.</h3>
+          <p>Camera in, servo commands out. Detector → tracker → aim → pan-tilt, running on the bench with no one steering. Short clip, unedited apart from the cut.</p>
+        </div>
+        <div class="demo-meta"><span class="tag"><span class="dot"></span>Closed loop</span><span class="tag"><span class="dot amber"></span>Safe stand-in effector</span><span class="tag"><span class="dot"></span>Indoor · short range</span></div>
+      </div>
+      <div class="demo-frame" id="demoFrame">
+        <video id="demoVideo" playsinline preload="none" controlsList="nodownload noplaybackrate noremoteplayback" disablepictureinpicture disableremoteplayback oncontextmenu="return false" draggable="false"></video>
+        <img class="demo-poster" id="demoPoster" alt="tratr test turret following a hovering drone — bench run" draggable="false">
+        <button class="demo-play" id="demoPlay" type="button" aria-label="Play the demo"><span class="ring"></span><span class="tri">▶</span><span class="lbl">Play the bench run</span><span class="sub">1 min 20 s</span></button>
+      </div>
+      <p class="demo-cap">Bench prototype, indoors, at short range, with the safe stand-in effector. This shows the plumbing closes end to end. No performance figures are claimed from it — field-validated metrics are gated on held-out, real-world testing and reported at pilot.</p>
+    </div>
+    <p class="reveal" style="font-size:11.5px; color:var(--dim); margin-top:16px; font-family:var(--mono)">Test-bench footage shown for capability illustration. Field-validated performance metrics are gated on held-out (unseen), real-world testing — reported honestly at pilot.</p>
   </div>
 </section>
 
@@ -387,8 +484,8 @@
       <div class="rm-item current">
         <div class="rm-node"></div>
         <div class="rm-top"><span class="rm-phase">P0 · Foundation</span><span class="rm-when">Jul – Sep 2026</span><span class="rm-badge now">Current</span></div>
-        <div class="rm-desc">Software targeting brain wired to a safe test turret; BSF discovery (underway).</div>
-        <div class="rm-cols"><div class="col"><div class="k">Ships</div><div class="v">Detect→track→aim on the workbench · demo · BSF talks</div></div><div class="col"><div class="k">Gate to next</div><div class="v">Closed-loop demo · ₹50L secured · BSF interest</div></div><div class="col"><div class="k">Funding</div><div class="v">Bootstrapped</div></div></div>
+        <div class="rm-desc">Software targeting brain wired to a safe test turret — closed loop demonstrated on the workbench, following a live drone; BSF discovery (underway).</div>
+        <div class="rm-cols"><div class="col"><div class="k">Ships</div><div class="v">Detect→track→aim on the workbench ✓ · live-drone bench run ✓ · BSF talks</div></div><div class="col"><div class="k">Gate to next</div><div class="v">Closed-loop demo ✓ · ₹50L secured · BSF interest</div></div><div class="col"><div class="k">Funding</div><div class="v">Bootstrapped</div></div></div>
       </div>
       <div class="rm-item">
         <div class="rm-node"></div>
@@ -456,6 +553,25 @@
   </div>
 </section>
 
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle" hidden>
+  <div class="gate-card">
+    <button class="gate-x" id="gateClose" type="button" aria-label="Close">×</button>
+    <span class="eyebrow">Bench run · 16 Sep 2026</span>
+    <h3 id="gateTitle">Who's watching the turret?</h3>
+    <div class="gate-fun"><span class="gate-fun-ic">👋</span><p>I haven't paid for a fancy lead-capture tool (yet), so you get a form I built myself. I'd just love to know who's watching my turret. Four fields, zero spam, and the clip plays right here.<br><span class="gate-sig">- Kamal</span></p></div>
+    <form id="gateForm" novalidate autocomplete="on">
+      <div class="gf"><label for="gName">Full name</label><input id="gName" name="full_name" type="text" autocomplete="name" placeholder="First Last" maxlength="80" required><span class="err" id="eName"></span></div>
+      <div class="gf"><label for="gPhone">Phone</label><input id="gPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98765 43210" maxlength="24" required><span class="err" id="ePhone"></span></div>
+      <div class="gf"><label for="gEmail">Business email</label><input id="gEmail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@yourfirm.com" maxlength="120" required><span class="err" id="eEmail"></span></div>
+      <div class="gf"><label for="gOrg">Organisation</label><input id="gOrg" name="org" type="text" autocomplete="organization" placeholder="Fund / company / unit" maxlength="120" required><span class="err" id="eOrg"></span></div>
+      <div class="gf hp" aria-hidden="true"><label for="gSite">Website</label><input id="gSite" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+      <button class="btn gate-go" id="gateGo" type="submit">Watch the video →</button>
+      <p class="gate-fine">Used only to follow up about tratr. Never sold or shared.</p>
+      <p class="err gate-err" id="gateErr"></p>
+    </form>
+  </div>
+</div>
+
 <footer>
   <div class="wrap foot">
     <div class="brand"><span class="mark">tr</span><span>tratr<small>COUNTER-DRONE · DEFENSE</small></span></div>
@@ -484,13 +600,66 @@ var cg=document.getElementById('cursorGlow');
 addEventListener('pointermove',function(e){cg.style.opacity=1;cg.style.left=e.clientX+'px';cg.style.top=e.clientY+'px';});
 addEventListener('pointerleave',function(){cg.style.opacity=0;});
 var logEl=document.getElementById('log');
-var events=[['a','ACOUSTIC','direction-of-arrival lock · bearing acquired'],['c','VISION','EO detector online · contact classified: FPV'],['c','CLASS','friendly rotorcraft recognised · hold fire'],['c','TRACK','multi-object track established'],['a','FIRE-CTRL','aim solution computed · pan-tilt slewing'],['c','BENCH','pan-tilt loop nominal · target centered'],['a','SAFETY','stand-in effector armed · safe-mode'],['c','C2','event logged · air-gapped · no external calls'],['a','ICD','track picture exported · documented interface · grid-ready'],['a','SENSOR','RF-silent contact — no radio emission detected'],['c','EDGE','all inference on-site · offline']];
+var events=[['a','ACOUSTIC','direction-of-arrival lock · bearing acquired'],['c','VISION','EO detector online · contact classified: FPV'],['c','CLASS','friendly rotorcraft recognised · hold fire'],['c','TRACK','multi-object track established'],['a','FIRE-CTRL','aim solution computed · pan-tilt slewing'],['c','BENCH','pan-tilt loop nominal · target centered'],['a','BENCH','live drone tracked · closed loop · 16 sep'],['a','SAFETY','stand-in effector armed · safe-mode'],['c','C2','event logged · air-gapped · no external calls'],['a','ICD','track picture exported · documented interface · grid-ready'],['a','SENSOR','RF-silent contact — no radio emission detected'],['c','EDGE','all inference on-site · offline']];
 var li=0;
 function pad(n){return n<10?'0'+n:''+n;}
 function stamp(){var d=new Date();return pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());}
 function pushLog(){var e=events[li%events.length];li++;var l=document.createElement('div');l.className='log-line';l.innerHTML='<span class="ts">'+stamp()+'</span> <span class="tagx'+(e[0]==='a'?' a':'')+'">['+e[1]+']</span> '+e[2];logEl.appendChild(l);while(logEl.children.length>6)logEl.removeChild(logEl.firstChild);}
 var logStarted=false;
 new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!logStarted){logStarted=true;pushLog();setInterval(pushLog,1600);}});},{threshold:.3}).observe(document.getElementById('status'));
+
+/* ---------------- demo video + lead gate ---------------- */
+(function(){
+  var cfg=window.TRATR_CFG||{};
+  var frame=document.getElementById('demoFrame'),video=document.getElementById('demoVideo'),poster=document.getElementById('demoPoster'),playBtn=document.getElementById('demoPlay');
+  var gate=document.getElementById('gate'),form=document.getElementById('gateForm'),go=document.getElementById('gateGo'),gErr=document.getElementById('gateErr');
+  if(!frame||!video||!gate)return;
+  if(cfg.posterSrc){poster.src=cfg.posterSrc;video.setAttribute('poster',cfg.posterSrc);}
+  var KEY='tratr_demo_unlocked',PENDING='tratr_lead_pending';
+  function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
+  function unlock(){
+    if(!cfg.videoSrc){gErr.textContent='Video not configured yet.';return;}
+    frame.classList.add('unlocked');
+    if(!video.getAttribute('src')){video.setAttribute('src',cfg.videoSrc);video.setAttribute('controls','');video.load();}
+    var p=video.play();if(p&&p.catch)p.catch(function(){});
+  }
+  function openGate(){gate.hidden=false;gErr.textContent='';setTimeout(function(){var f=document.getElementById('gName');if(f)f.focus();},60);document.body.style.overflow='hidden';}
+  function closeGate(){gate.hidden=true;document.body.style.overflow='';}
+  playBtn.addEventListener('click',function(){if(ls(KEY)==='1'){unlock();}else{openGate();}});
+  document.getElementById('gateClose').addEventListener('click',closeGate);
+  gate.addEventListener('click',function(e){if(e.target===gate)closeGate();});
+  addEventListener('keydown',function(e){if(e.key==='Escape'&&!gate.hidden)closeGate();});
+  video.addEventListener('contextmenu',function(e){e.preventDefault();});
+  /* validation */
+  var F={name:document.getElementById('gName'),phone:document.getElementById('gPhone'),email:document.getElementById('gEmail'),org:document.getElementById('gOrg'),hp:document.getElementById('gSite')};
+  var E={name:document.getElementById('eName'),phone:document.getElementById('ePhone'),email:document.getElementById('eEmail'),org:document.getElementById('eOrg')};
+  function setErr(k,msg){E[k].textContent=msg||'';F[k].classList.toggle('bad',!!msg);}
+  function vName(v){v=v.trim();if(v.length<3)return 'Please enter your full name.';if(!/^[\p{L}][\p{L}\s'.\-]{1,79}$/u.test(v))return 'Letters, spaces, apostrophes and hyphens only.';if(v.split(/\s+/).filter(Boolean).length<2)return 'First and last name, please.';return '';}
+  function vPhone(v){var d=v.replace(/[\s().\-]/g,'');if(!/^\+?\d{8,15}$/.test(d))return 'Enter a valid phone number (8–15 digits, + country code welcome).';return '';}
+  function vEmail(v){v=v.trim();if(!/^[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$/.test(v))return 'Enter a valid email address.';if(/\.\./.test(v))return 'Enter a valid email address.';return '';}
+  function vOrg(v){v=v.trim();if(v.length<2)return 'Which fund, company or unit are you with?';return '';}
+  var validators={name:vName,phone:vPhone,email:vEmail,org:vOrg};
+  Object.keys(validators).forEach(function(k){F[k].addEventListener('input',function(){if(E[k].textContent)setErr(k,validators[k](F[k].value));});F[k].addEventListener('blur',function(){if(F[k].value)setErr(k,validators[k](F[k].value));});});
+  function payload(){return {full_name:F.name.value.trim(),phone:F.phone.value.replace(/[\s().\-]/g,''),email:F.email.value.trim().toLowerCase(),org:F.org.value.trim(),source:'site-demo-gate',page:location.pathname,referrer:document.referrer||null,user_agent:navigator.userAgent.slice(0,240)};}
+  function submitLead(body){
+    if(!cfg.supabaseUrl||!cfg.supabaseAnonKey)return Promise.reject(new Error('lead endpoint not configured'));
+    return fetch(cfg.supabaseUrl.replace(/\/$/,'')+'/rest/v1/'+(cfg.leadsTable||'tratr_leads'),{method:'POST',headers:{'apikey':cfg.supabaseAnonKey,'Authorization':'Bearer '+cfg.supabaseAnonKey,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(body)}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return true;});
+  }
+  form.addEventListener('submit',function(e){
+    e.preventDefault();gErr.textContent='';
+    if(F.hp.value){closeGate();return;}                 /* honeypot: bots fill it, humans never see it */
+    var bad=false;Object.keys(validators).forEach(function(k){var m=validators[k](F[k].value);setErr(k,m);if(m)bad=true;});
+    if(bad){var first=Object.keys(validators).filter(function(k){return E[k].textContent;})[0];if(first)F[first].focus();return;}
+    var body=payload();go.disabled=true;go.textContent='Unlocking…';
+    submitLead(body).catch(function(){return submitLead(body);}).then(function(){ls(KEY,'1');},function(err){
+      /* do not lose an investor's attention over an outage: unlock anyway, keep the lead for a retry */
+      try{var q=JSON.parse(ls(PENDING)||'[]');q.push(body);ls(PENDING,JSON.stringify(q));}catch(x){}
+      ls(KEY,'1');if(window.console)console.warn('[tratr] lead not delivered:',err&&err.message);
+    }).then(function(){go.disabled=false;go.textContent='Watch the video →';closeGate();unlock();});
+  });
+  /* retry any lead that failed to send on a previous visit */
+  (function retryPending(){try{var q=JSON.parse(ls(PENDING)||'[]');if(!q.length)return;var b=q.shift();ls(PENDING,JSON.stringify(q));submitLead(b).catch(function(){q.unshift(b);ls(PENDING,JSON.stringify(q));});}catch(e){}})();
+})();
 
 (function(){
   var canvas=document.getElementById('scene');if(!canvas)return;

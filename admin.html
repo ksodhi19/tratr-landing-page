@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>tratr — leads</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<style>
+  :root{--bg:#05070C; --bg2:#080B13; --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.16); --ink:#F0F3F9; --muted:#98A2B5; --dim:#5A6377; --accent:#FF6A2C; --accent2:#FFA766; --cyan:#37E4CB; --danger:#FF4D4D; --amber:#FFB648;
+    --sans:'Inter',system-ui,sans-serif; --disp:'Sora',var(--sans); --mono:'JetBrains Mono',ui-monospace,monospace}
+  *{box-sizing:border-box; margin:0; padding:0}
+  body{background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.5; -webkit-font-smoothing:antialiased; min-height:100vh}
+  .wrap{max-width:1240px; margin:0 auto; padding:26px 22px 60px}
+  h1{font-family:var(--disp); font-size:21px; font-weight:600; display:flex; align-items:center; gap:12px}
+  h1 .mark{width:30px; height:30px; border:1.5px solid var(--accent); border-radius:8px; display:grid; place-items:center; color:var(--accent); font-size:12px}
+  .top{display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:20px}
+  .glass{border:1px solid var(--line); border-radius:14px; background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.008))}
+  .login{max-width:380px; margin:12vh auto 0; padding:26px}
+  .login h2{font-family:var(--disp); font-size:20px; margin-bottom:6px}
+  .login p{font-size:13px; color:var(--muted); margin-bottom:16px}
+  label{display:block; font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); font-weight:600; margin:10px 0 5px}
+  input,select,textarea{font:inherit; width:100%; color:var(--ink); background:rgba(255,255,255,.04); border:1px solid var(--line2); border-radius:9px; padding:9px 11px; outline:none}
+  input:focus,select:focus,textarea:focus{border-color:var(--accent); box-shadow:0 0 0 3px rgba(255,106,44,.18)}
+  select option{background:#0d1220; color:var(--ink)}
+  .btn{font-size:13.5px; font-weight:600; padding:10px 16px; border-radius:9px; cursor:pointer; border:1px solid var(--accent); background:linear-gradient(180deg,var(--accent2),var(--accent)); color:#160c04; display:inline-flex; align-items:center; gap:8px; white-space:nowrap}
+  .btn.ghost{background:transparent; color:var(--ink); border-color:var(--line2)}
+  .btn[disabled]{opacity:.6; cursor:wait}
+  .err{color:var(--danger); font-size:12.5px; margin-top:10px; min-height:18px}
+  .bar{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:12px}
+  .bar input[type=search]{max-width:300px}
+  .chips{display:flex; gap:6px; flex-wrap:wrap}
+  .chip{font-size:12px; padding:6px 11px; border-radius:999px; border:1px solid var(--line2); color:var(--muted); cursor:pointer; background:transparent; font-family:var(--sans)}
+  .chip.on{color:#04211c; background:var(--cyan); border-color:var(--cyan); font-weight:600}
+  .chip b{font-family:var(--mono); font-weight:500; opacity:.75; margin-left:5px}
+  .stat{font-family:var(--mono); font-size:12px; color:var(--muted); margin-left:auto}
+  .tablewrap{border:1px solid var(--line); border-radius:12px; overflow:hidden}
+  table{width:100%; border-collapse:collapse; table-layout:fixed; font-size:13px}
+  th,td{text-align:left; padding:10px 9px; border-bottom:1px solid var(--line); vertical-align:top; overflow-wrap:anywhere}
+  th{font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); font-weight:600; background:rgba(255,255,255,.02); user-select:none}
+  th.sort{cursor:pointer} th.sort:hover{color:var(--ink)} th .arr{font-family:var(--mono); margin-left:4px; color:var(--cyan)}
+  col.c-status{width:132px} col.c-when{width:104px} col.c-name{width:150px} col.c-email{width:210px} col.c-phone{width:128px} col.c-org{width:150px} col.c-notes{width:auto}
+  tr:hover td{background:rgba(255,255,255,.02)}
+  td.mono{font-family:var(--mono); font-size:11.5px; color:var(--muted)}
+  td a{color:var(--cyan); text-decoration:none}
+  td .sub{display:block; font-family:var(--mono); font-size:10.5px; color:var(--dim); margin-top:3px}
+  .st{font-size:12px; padding:6px 8px; border-radius:8px; border:1px solid var(--line2); font-weight:600; width:100%}
+  .st.new{color:var(--cyan); border-color:rgba(55,228,203,.4); background:rgba(55,228,203,.10)}
+  .st.reached_out{color:var(--amber); border-color:rgba(255,182,72,.4); background:rgba(255,182,72,.10)}
+  .st.closed{color:#9be08e; border-color:rgba(155,224,142,.4); background:rgba(155,224,142,.10)}
+  .st.junk{color:var(--dim); border-color:var(--line); background:transparent}
+  .notes{width:100%; font-size:12.5px; padding:6px 8px; resize:vertical; min-height:34px; line-height:1.4}
+  .empty{padding:40px; text-align:center; color:var(--dim); font-family:var(--mono); font-size:12.5px}
+  .hidden{display:none}
+  @media(max-width:900px){
+    table,thead,tbody,tr,td,th{display:block}
+    thead{display:none} colgroup{display:none}
+    tr{border-bottom:1px solid var(--line2); padding:10px 8px}
+    td{border:none; padding:4px 4px}
+    td::before{content:attr(data-l); display:block; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); font-weight:600; margin-bottom:2px}
+    .stat{margin-left:0}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <h1><span class="mark">tr</span>tratr — demo-gate leads</h1>
+    <div id="who" class="stat hidden"></div>
+  </div>
+
+  <div class="login glass" id="login">
+    <h2>Sign in</h2>
+    <p>Admin access only.</p>
+    <form id="loginForm">
+      <label for="lEmail">Email</label><input id="lEmail" type="email" autocomplete="username" required>
+      <label for="lPass">Password</label><input id="lPass" type="password" autocomplete="current-password" required>
+      <div style="margin-top:16px"><button class="btn" id="lGo" type="submit">Sign in →</button></div>
+      <div class="err" id="lErr"></div>
+    </form>
+  </div>
+
+  <div id="app" class="hidden">
+    <div class="bar">
+      <input id="q" type="search" placeholder="Search name, email, org, phone, notes…">
+      <div class="chips" id="chips"></div>
+      <span class="stat" id="count"></span>
+    </div>
+    <div class="bar">
+      <button class="btn ghost" id="refresh" type="button">Refresh</button>
+      <button class="btn ghost" id="csv" type="button">Export CSV (filtered)</button>
+      <span style="flex:1"></span>
+      <button class="btn ghost" id="logout" type="button">Sign out</button>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <colgroup><col class="c-status"><col class="c-when"><col class="c-name"><col class="c-email"><col class="c-phone"><col class="c-org"><col class="c-notes"></colgroup>
+        <thead><tr>
+          <th class="sort" data-k="status">Status<span class="arr"></span></th>
+          <th class="sort" data-k="created_at">When<span class="arr"></span></th>
+          <th class="sort" data-k="full_name">Name<span class="arr"></span></th>
+          <th class="sort" data-k="email">Email<span class="arr"></span></th>
+          <th>Phone</th>
+          <th class="sort" data-k="org">Organisation<span class="arr"></span></th>
+          <th>Notes</th>
+        </tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <div class="empty hidden" id="empty">No leads match.</div>
+    </div>
+    <div class="err" id="aErr"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var cfg=window.TRATR_CFG||{};
+  if(!window.supabase||!cfg.supabaseUrl||!cfg.supabaseAnonKey){document.getElementById('lErr').textContent='config.js is not filled in (supabaseUrl / supabaseAnonKey).';return;}
+  var sb=window.supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey);
+  var TABLE=cfg.leadsTable||'tratr_leads';
+  var STATUSES=[['new','New'],['reached_out','Reached out'],['closed','Closed'],['junk','Junk']];
+  var STATUS_RANK={new:0,reached_out:1,closed:2,junk:3};
+  var login=document.getElementById('login'),app=document.getElementById('app'),who=document.getElementById('who');
+  var rows=document.getElementById('rows'),empty=document.getElementById('empty'),count=document.getElementById('count'),aErr=document.getElementById('aErr'),chipsEl=document.getElementById('chips');
+  var all=[],filterStatus='all',sortKey='created_at',sortDir=-1;
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function fmt(ts){var d=new Date(ts);return d.toLocaleDateString(undefined,{day:'2-digit',month:'short'})+' '+d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'});}
+  function statusSel(r){return '<select class="st '+esc(r.status||'new')+'" data-act="status">'+STATUSES.map(function(s){return '<option value="'+s[0]+'"'+((r.status||'new')===s[0]?' selected':'')+'>'+s[1]+'</option>';}).join('')+'</select>';}
+  function filtered(){
+    var q=(document.getElementById('q').value||'').trim().toLowerCase();
+    return all.filter(function(r){
+      if(filterStatus!=='all'&&(r.status||'new')!==filterStatus)return false;
+      if(!q)return true;
+      return [r.full_name,r.email,r.org,r.phone,r.notes].join(' ').toLowerCase().indexOf(q)>=0;
+    }).sort(function(a,b){
+      var va=a[sortKey],vb=b[sortKey];
+      if(sortKey==='status'){va=STATUS_RANK[a.status||'new'];vb=STATUS_RANK[b.status||'new'];}
+      else if(sortKey==='created_at'){va=new Date(va).getTime();vb=new Date(vb).getTime();}
+      else{va=String(va||'').toLowerCase();vb=String(vb||'').toLowerCase();}
+      return (va<vb?-1:va>vb?1:0)*sortDir;
+    });
+  }
+  function renderChips(){
+    var counts={all:all.length};STATUSES.forEach(function(s){counts[s[0]]=all.filter(function(r){return (r.status||'new')===s[0];}).length;});
+    var items=[['all','All']].concat(STATUSES);
+    chipsEl.innerHTML=items.map(function(s){return '<button type="button" class="chip'+(filterStatus===s[0]?' on':'')+'" data-f="'+s[0]+'">'+s[1]+'<b>'+counts[s[0]]+'</b></button>';}).join('');
+  }
+  function render(){
+    renderChips();
+    document.querySelectorAll('th.sort').forEach(function(th){th.querySelector('.arr').textContent=th.dataset.k===sortKey?(sortDir<0?'▼':'▲'):'';});
+    var list=filtered();
+    count.textContent=list.length+' shown · '+all.length+' total';
+    rows.innerHTML=list.map(function(r){
+      var meta=[r.source,r.page,r.referrer?('ref '+r.referrer):''].filter(Boolean).join(' · ');
+      return '<tr data-id="'+r.id+'">'+
+        '<td data-l="Status">'+statusSel(r)+'</td>'+
+        '<td data-l="When" class="mono" title="'+esc(meta)+'">'+esc(fmt(r.created_at))+'</td>'+
+        '<td data-l="Name"><b>'+esc(r.full_name)+'</b></td>'+
+        '<td data-l="Email"><a href="mailto:'+esc(r.email)+'">'+esc(r.email)+'</a></td>'+
+        '<td data-l="Phone" class="mono"><a href="tel:'+esc(r.phone)+'">'+esc(r.phone)+'</a></td>'+
+        '<td data-l="Organisation">'+esc(r.org)+'</td>'+
+        '<td data-l="Notes"><textarea class="notes" data-act="notes" placeholder="notes…">'+esc(r.notes||'')+'</textarea></td>'+
+      '</tr>';}).join('');
+    empty.classList.toggle('hidden',list.length>0);
+  }
+  function load(){
+    aErr.textContent='';
+    sb.from(TABLE).select('*').order('created_at',{ascending:false}).limit(5000).then(function(res){
+      if(res.error){aErr.textContent='Read failed: '+res.error.message+' — is your email in admin_emails()? Did you add the status column?';return;}
+      all=res.data||[];render();
+    });
+  }
+  function showApp(user){login.classList.add('hidden');app.classList.remove('hidden');who.classList.remove('hidden');who.textContent=user.email;load();}
+  sb.auth.getSession().then(function(r){if(r.data&&r.data.session)showApp(r.data.session.user);});
+  document.getElementById('loginForm').addEventListener('submit',function(e){
+    e.preventDefault();var go=document.getElementById('lGo'),err=document.getElementById('lErr');go.disabled=true;err.textContent='';
+    sb.auth.signInWithPassword({email:document.getElementById('lEmail').value.trim(),password:document.getElementById('lPass').value}).then(function(r){
+      go.disabled=false;if(r.error){err.textContent=r.error.message;return;}showApp(r.data.user);
+    });
+  });
+  document.getElementById('logout').addEventListener('click',function(){sb.auth.signOut().then(function(){location.reload();});});
+  document.getElementById('refresh').addEventListener('click',load);
+  document.getElementById('q').addEventListener('input',render);
+  chipsEl.addEventListener('click',function(e){var b=e.target.closest('button[data-f]');if(!b)return;filterStatus=b.dataset.f;render();});
+  document.querySelectorAll('th.sort').forEach(function(th){th.addEventListener('click',function(){var k=th.dataset.k;if(sortKey===k){sortDir=-sortDir;}else{sortKey=k;sortDir=(k==='created_at')?-1:1;}render();});});
+  function rowOf(el){var tr=el.closest('tr'),id=Number(tr.dataset.id);return all.filter(function(r){return r.id===id;})[0];}
+  rows.addEventListener('change',function(e){
+    var sel=e.target.closest('select[data-act="status"]');
+    if(sel){var r=rowOf(sel);if(!r)return;var v=sel.value;sel.disabled=true;
+      sb.from(TABLE).update({status:v}).eq('id',r.id).then(function(res){sel.disabled=false;if(res.error){aErr.textContent='Update failed: '+res.error.message;return;}r.status=v;render();});return;}
+    var t=e.target.closest('textarea[data-act="notes"]');
+    if(t){var r2=rowOf(t);if(!r2)return;
+      sb.from(TABLE).update({notes:t.value}).eq('id',r2.id).then(function(res){if(res.error){aErr.textContent='Update failed: '+res.error.message;return;}r2.notes=t.value;});}
+  });
+  document.getElementById('csv').addEventListener('click',function(){
+    var cols=['status','created_at','full_name','email','phone','org','notes','source','page','referrer','user_agent'];
+    var list=filtered();
+    var lines=[cols.join(',')].concat(list.map(function(r){return cols.map(function(c){var v=r[c]==null?'':String(r[c]);return '"'+v.replace(/"/g,'""')+'"';}).join(',');}));
+    var blob=new Blob([lines.join('\n')],{type:'text/csv'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='tratr_leads_'+new Date().toISOString().slice(0,10)+'.csv';document.body.appendChild(a);a.click();a.remove();
+  });
+})();
+</script>
+</body>
+</html>
