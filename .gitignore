@@ -1,0 +1,5 @@
+
+COPY.md
+supabase_setup.sql
+deploy-to-github.sh
+
